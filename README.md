@@ -13,12 +13,12 @@ base，function，utils
 
 ##### 基本目录
 BuyTreasureChest：包括data部分和ui。
-###### data
 
-###### UI
+
+##### UI
 HomePage:打开商店。
 StoreDialog：加载商店页面。
 CheseItem：加载宝箱item，和购买操作等。
 
-###### base
+##### base
 ObjectPool:对象池，创建金币队列。
