@@ -8,12 +8,12 @@
 ### Script
 首先应导入相应插件和资源。
 将dotween和simple文件导入放入plugins。
+使用AEPToUnity插件导入宝箱动画。
 应包含三个基本目录：
 base，function，utils
 
 ##### 基本目录
 BuyTreasureChest：包括data部分和ui。
-
 
 ##### UI
 HomePage:打开商店。
