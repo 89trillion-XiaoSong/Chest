@@ -5,13 +5,12 @@ using DG.Tweening;
 
 public class ChestItem : MonoBehaviour
 {
-    [HideInInspector] public Transform coinTransform;
-    [HideInInspector] public Transform initCoinTransform;
-    [HideInInspector] public Text txtCoinNum;
-    [HideInInspector] public Text txtPurchaseTips;
+    private Transform coinTransform;
+    private Transform initCoinTransform;
+    private Text txtCoinNum;
+    private Text txtPurchaseTips;
     
     [SerializeField] private Text txtCostGold;
-    //[SerializeField] private GameObject prbCoin;
     [SerializeField] private Animator chestAnim;
     
     private int itemID;
@@ -23,6 +22,8 @@ public class ChestItem : MonoBehaviour
     /// <param name="coinTransform">金币动画终点</param>
     /// <param name="initCoinTransform">金币生成位置</param>
     /// <param name="itemID">商品ID</param>
+    /// <param name="txtCoinNum">金币数量</param>>
+    /// <param name="txtPurchaseTips">购买提示</param>>
     public void InitItems(Transform coinTransform,Transform initCoinTransform,Text txtCoinNum,Text txtPurchaseTips,int itemID)
     {
         this.coinTransform = coinTransform;
@@ -49,6 +50,7 @@ public class ChestItem : MonoBehaviour
         StartCoroutine(InitCoin());
     }
 
+    //宝箱动画
     private void SwitchAnimation()
     {
         chestAnim.SetTrigger("box_close_1");

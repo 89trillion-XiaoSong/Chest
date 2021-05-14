@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +11,7 @@ public class StoreDialog : MonoBehaviour
     [SerializeField] private Text txtCoinNum;
     [SerializeField] private Text txtPurchaseTips;
     
-    private List<ChestItem> chestItemList = new List<ChestItem>();
+    private List<ChestItem> chestItemList = new List<ChestItem>();      //Item列表类
     
     //初始化商店列表
     public void Init()
