@@ -24,4 +24,9 @@ public class StoreDialog : MonoBehaviour
             chestItemList.Add(item);
         }
     }
+
+    public void CloseStore()
+    {
+        Destroy(gameObject);
+    }
 }
