@@ -10,7 +10,8 @@ public class StoreDialog : MonoBehaviour
     [SerializeField] private Transform coinTransform;
     [SerializeField] private Transform initCoinTransform;
     [SerializeField] private Text txtCoinNum;
-
+    [SerializeField] private Text txtPurchaseTips;
+    
     private List<ChestItem> chestItemList = new List<ChestItem>();
     
     //初始化商店列表
@@ -19,7 +20,7 @@ public class StoreDialog : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             ChestItem item = Instantiate(chestItem, content);
-            item.InitItems(coinTransform, initCoinTransform, txtCoinNum, i + 1);
+            item.InitItems(coinTransform, initCoinTransform, txtCoinNum, txtPurchaseTips, i + 1);
 
             chestItemList.Add(item);
         }

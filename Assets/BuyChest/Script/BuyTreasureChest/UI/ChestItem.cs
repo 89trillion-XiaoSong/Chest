@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -11,11 +8,13 @@ public class ChestItem : MonoBehaviour
     [HideInInspector] public Transform coinTransform;
     [HideInInspector] public Transform initCoinTransform;
     [HideInInspector] public Text txtCoinNum;
+    [HideInInspector] public Text txtPurchaseTips;
     
     [SerializeField] private Text txtCostGold;
-    [SerializeField] private GameObject prbCoin;
+    //[SerializeField] private GameObject prbCoin;
+    [SerializeField] private Animator chestAnim;
     
-    public int itemID;
+    private int itemID;
     private const int CostGold = 250;
 
     /// <summary>
@@ -24,12 +23,13 @@ public class ChestItem : MonoBehaviour
     /// <param name="coinTransform">金币动画终点</param>
     /// <param name="initCoinTransform">金币生成位置</param>
     /// <param name="itemID">商品ID</param>
-    public void InitItems(Transform coinTransform,Transform initCoinTransform,Text txtCoinNum,int itemID)
+    public void InitItems(Transform coinTransform,Transform initCoinTransform,Text txtCoinNum,Text txtPurchaseTips,int itemID)
     {
         this.coinTransform = coinTransform;
         this.initCoinTransform = initCoinTransform;
         this.itemID = itemID;
         this.txtCoinNum = txtCoinNum;
+        this.txtPurchaseTips = txtPurchaseTips;
         
         ChestCost();
     }
@@ -43,9 +43,17 @@ public class ChestItem : MonoBehaviour
     //购买操作
     public void PurchaseChest()
     {
+        txtPurchaseTips.gameObject.SetActive(true);
+        
+        SwitchAnimation();
         StartCoroutine(InitCoin());
     }
 
+    private void SwitchAnimation()
+    {
+        chestAnim.SetTrigger("box_close_1");
+    }
+    
     //生成金币
     private IEnumerator InitCoin()
     {
@@ -65,8 +73,11 @@ public class ChestItem : MonoBehaviour
             initCoinNum--;
             yield return new WaitForSeconds(0.2f);
         }
+
+        yield return new WaitForSeconds(0.5f);
+        txtPurchaseTips.gameObject.SetActive(false);
     }
-    
+
     //金币回归对象池
     private IEnumerator TweenerPlayerComplete(GameObject coin)
     {
