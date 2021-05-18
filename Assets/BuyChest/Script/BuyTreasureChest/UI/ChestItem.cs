@@ -47,7 +47,8 @@ public class ChestItem : MonoBehaviour
         txtPurchaseTips.gameObject.SetActive(true);
         
         SwitchAnimation();
-        StartCoroutine(InitCoin());
+        InitCoin();
+        //StartCoroutine(InitCoin());
     }
 
     //宝箱动画
@@ -55,36 +56,38 @@ public class ChestItem : MonoBehaviour
     {
         chestAnim.SetTrigger("box_close_1");
     }
-    
+
+
     //生成金币
-    private IEnumerator InitCoin()
+    private void InitCoin()
     {
         int initCoinNum = itemID * 5;
-        while (initCoinNum>0)
+        Sequence sequence = DOTween.Sequence();
+        
+        for(int i=0;i<initCoinNum;i++)
         {
             GameObject coin = ObjectsPool.instance.GetInstance();
+            coin.SetActive(false);
             coin.transform.position = initCoinTransform.position+new Vector3(UnityEngine.Random.Range(-0.3f,0.3f),
                 UnityEngine.Random.Range(-0.3f,0.3f),0);
             Vector3 coinLocalScale = coin.transform.localScale;
             coin.transform.localScale = new Vector3(0, 0, 1);
-            Tweener coinTweener = coin.transform.DOMove(coinTransform.position, 1);
-            coin.transform.DOScale(coinLocalScale, 0.2f);
-            coinTweener.SetEase(Ease.InExpo);
+
+            sequence.InsertCallback(i * 0.2f, () =>
+            {
+                coin.SetActive(true);
+            });
+            sequence.Insert(i * 0.2f, coin.transform.DOScale(coinLocalScale, 0.2f));
             
-            StartCoroutine(TweenerPlayerComplete(coin));
-            initCoinNum--;
-            yield return new WaitForSeconds(0.2f);
+            //金币移动动画，并在动画完成调用回调函数，将金币放入对象池
+            Tweener coinTweener = coin.transform.DOMove(coinTransform.position, 1).OnComplete(() =>
+            {
+                ObjectsPool.instance.ReturnInstance(coin);
+                txtCoinNum.text = (int.Parse(txtCoinNum.text) + 1).ToString();
+            });;
+            coinTweener.SetEase(Ease.InExpo);
+            sequence.Insert(i * 0.2f, coinTweener);
         }
-
-        yield return new WaitForSeconds(0.5f);
-        txtPurchaseTips.gameObject.SetActive(false);
     }
-
-    //金币回归对象池
-    private IEnumerator TweenerPlayerComplete(GameObject coin)
-    {
-        yield return new WaitForSeconds(1);
-        ObjectsPool.instance.ReturnInstance(coin);
-        txtCoinNum.text = (int.Parse(txtCoinNum.text) + 1).ToString();
-    }
+    
 }
